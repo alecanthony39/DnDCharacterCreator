@@ -19,7 +19,6 @@ const CreateC = () => {
     <div>
       <h1>Create Your DnD Character</h1>
       <form onSubmit={handleSubmit}>
-        {/* Example form questions */}
         <label>
           Character Name:
           <input
