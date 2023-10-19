@@ -4,39 +4,20 @@ import { useState } from "react";
 const CreateC = () => {
   const [character, setCharacter] = useState({});
   const [stats, setStats] = useState({
-    strength: 10,
-    dexterity: 10,
-    constitution: 10,
-    intelligence: 10,
-    wisdom: 10,
-    charisma: 10,
+    strength: 0,
+    dexterity: 0,
+    constitution: 0,
+    intelligence: 0,
+    wisdom: 0,
+    charisma: 0,
   });
-  const [pointsSpent, setPointsSpent] = useState(0);
-  const [totalPointsLimit, setTotalPointsLimit] = useState(27);
+  const randomizeStat = (statName) => {
+    const randomValue = Math.floor(Math.random() * 20) + 1;
 
-  const handleStatChange = (statName, value) => {
-    const initialPoints = 10;
-    const newStats = {
-      ...stats,
-      [statName]: value,
-    };
-
-    const newPointsSpent = Object.values(newStats).reduce(
-      (total, statValue) => total + Math.max(statValue - initialPoints, 0),
-      0
-    );
-
-    const isValidValue = value >= 8 && value <= 20;
-    const isValidChange = newPointsSpent <= totalPointsLimit;
-
-    console.log("isValidValue", isValidValue);
-    console.log("isValidChange", isValidChange);
-
-    if (isValidValue && isValidChange) {
-      setStats(newStats);
-      setPointsSpent(newPointsSpent);
-      setTotalPointsLimit(27 - newPointsSpent);
-    }
+    setStats((prevStats) => {
+      const updatedStats = { ...prevStats, [statName]: randomValue };
+      return updatedStats;
+    });
   };
 
   const renderStatInputs = () => {
@@ -44,13 +25,10 @@ const CreateC = () => {
       <div key={statName}>
         <label>
           {statName.charAt(0).toUpperCase() + statName.slice(1)}:
-          <input
-            type="number"
-            value={stats[statName]}
-            onChange={(e) =>
-              handleStatChange(statName, parseInt(e.target.value))
-            }
-          />
+          <div>{stats[statName]}</div>
+          <button type="button" onClick={() => randomizeStat(statName)}>
+            Roll
+          </button>
         </label>
       </div>
     ));
@@ -64,6 +42,7 @@ const CreateC = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    character.stats = stats;
     console.log("Character:", character);
   };
 
@@ -160,8 +139,8 @@ const CreateC = () => {
             <option value="Chaotic Evil">Chaotic Evil</option>
           </select>
         </label>
-        <br />
-        <h1>Points Left:{totalPointsLimit}</h1>
+
+        <h1>Roll your Stats</h1>
         {renderStatInputs()}
         <br />
 
