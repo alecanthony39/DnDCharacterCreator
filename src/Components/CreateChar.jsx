@@ -11,6 +11,7 @@ const CreateC = () => {
     wisdom: 0,
     charisma: 0,
   });
+
   const randomizeStat = (statName) => {
     const randomValue = Math.floor(Math.random() * 20) + 1;
 
@@ -119,6 +120,14 @@ const CreateC = () => {
           </select>
         </label>
         <br />
+        <label>
+          Character BackStory
+          <input
+            type="text"
+            value={character.backstory || ""}
+            onChange={(e) => handleInputChange("backstory", e.target.value)}
+          />
+        </label>
 
         <label>
           {" "}
