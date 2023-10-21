@@ -21,6 +21,87 @@ const CreateC = () => {
     });
   };
 
+  const chooseStartItems = () => {
+    switch (character.background) {
+      case "Acolyte":
+        character.startItems = [
+          "Holy Symbol",
+          "Prayer Book",
+          "5 Sticks of Incense",
+          "Vestments",
+          "Common Clothes",
+          "15 Gold Pieces",
+        ];
+        break;
+      case "Charlatan":
+        character.startItems = [
+          "Set of Fine Clothes",
+          "A disguise kit",
+          "Charalatan Tools",
+          "15 Gold Peices",
+        ];
+        break;
+
+      case "Criminal":
+        character.startItems = [
+          "A Crowbar",
+          "Set of Dark Common Clothes",
+          "Theives' Tools",
+          "15 Gold Peices",
+        ];
+        break;
+
+      case "Folk Hero":
+        character.startItems = [
+          "Artisan's Tools",
+          "Shovel",
+          "Iron Pot",
+          "Common Clothes",
+          "10 Gold Peices",
+        ];
+        break;
+
+      case "Noble":
+        character.startItems = [
+          "Fine Clothes",
+          "Signet Ring",
+          "Scroll Of Pedigree",
+          "25 Gold Peices",
+        ];
+        break;
+      case "Sage":
+        character.startItems = [
+          "Black Ink",
+          "Quill",
+          "Small Knife",
+          "Mysterious Letter",
+          "Common Clothes",
+          "10 Gold Peices",
+        ];
+        break;
+      case "Sailor":
+        character.startItems = [
+          "Club",
+          "Silk Rope",
+          "Common Clothes",
+          "10 Gold Peices",
+        ];
+        break;
+      case "Soldier":
+        character.startItems = [
+          "Insignia of Rank",
+          "Trophy From Fallen Enemy",
+          "Deck of Cards",
+          "Common Clothes",
+          "10 Gold Peices",
+        ];
+        break;
+
+      default:
+        character.startItems = [];
+    }
+  };
+
   const renderStatInputs = () => {
     return Object.keys(stats).map((statName) => (
       <div key={statName}>
@@ -40,10 +121,14 @@ const CreateC = () => {
       ...prevCharacter,
       [fieldName]: value,
     }));
+    if (fieldName === "background") {
+      chooseStartItems();
+    }
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     character.stats = stats;
+
     console.log("Character:", character);
   };
 
@@ -118,6 +203,16 @@ const CreateC = () => {
             <option value="Soldier">Soldier</option>
             <option value="Urchin">Urchin</option>
           </select>
+          {character.startItems && (
+            <div>
+              <h2>Starting Items:</h2>
+              <ul>
+                {character.startItems.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </label>
         <br />
         <label>
