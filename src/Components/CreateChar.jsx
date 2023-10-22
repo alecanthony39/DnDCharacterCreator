@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const CreateC = () => {
   const [character, setCharacter] = useState({});
@@ -22,9 +22,11 @@ const CreateC = () => {
   };
 
   const chooseStartItems = () => {
+    let startItems = [];
+
     switch (character.background) {
       case "Acolyte":
-        character.startItems = [
+        startItems = [
           "Holy Symbol",
           "Prayer Book",
           "5 Sticks of Incense",
@@ -34,73 +36,129 @@ const CreateC = () => {
         ];
         break;
       case "Charlatan":
-        character.startItems = [
+        startItems = [
           "Set of Fine Clothes",
           "A disguise kit",
-          "Charalatan Tools",
-          "15 Gold Peices",
+          "Charlatan Tools",
+          "15 Gold Pieces",
         ];
         break;
 
       case "Criminal":
-        character.startItems = [
+        startItems = [
           "A Crowbar",
           "Set of Dark Common Clothes",
-          "Theives' Tools",
-          "15 Gold Peices",
+          "Thieves' Tools",
+          "15 Gold Pieces",
+        ];
+        break;
+
+      case "Entertainer":
+        startItems = [
+          "Musical Instrument",
+          "Favor of an Admirer",
+          "Costume",
+          "15 Gold Pieces",
         ];
         break;
 
       case "Folk Hero":
-        character.startItems = [
+        startItems = [
           "Artisan's Tools",
           "Shovel",
           "Iron Pot",
           "Common Clothes",
-          "10 Gold Peices",
+          "10 Gold Pieces",
+        ];
+        break;
+
+      case "Guild Artisan":
+        startItems = [
+          "Artisan's Tools",
+          "Letter Of Introduction From Guild",
+          "Traveler's Clothes",
+          "15 Gold Pieces",
+        ];
+        break;
+
+      case "Hermit":
+        startItems = [
+          "Scroll Case Full of Notes",
+          "Winter Blanket",
+          "Common Clothes",
+          "Herbalism Kit",
+          "15 Gold Pieces",
         ];
         break;
 
       case "Noble":
-        character.startItems = [
+        startItems = [
           "Fine Clothes",
           "Signet Ring",
           "Scroll Of Pedigree",
-          "25 Gold Peices",
+          "25 Gold Pieces",
         ];
         break;
+
+      case "Outlander":
+        startItems = [
+          "Staff",
+          "Hunting Trap",
+          "Trophy From an Animal You Killed",
+          "10 Gold Pieces",
+        ];
+        break;
+
       case "Sage":
-        character.startItems = [
+        startItems = [
           "Black Ink",
           "Quill",
           "Small Knife",
           "Mysterious Letter",
           "Common Clothes",
-          "10 Gold Peices",
+          "10 Gold Pieces",
         ];
         break;
       case "Sailor":
-        character.startItems = [
-          "Club",
-          "Silk Rope",
-          "Common Clothes",
-          "10 Gold Peices",
-        ];
+        startItems = ["Club", "Silk Rope", "Common Clothes", "10 Gold Pieces"];
         break;
       case "Soldier":
-        character.startItems = [
+        startItems = [
           "Insignia of Rank",
           "Trophy From Fallen Enemy",
           "Deck of Cards",
           "Common Clothes",
-          "10 Gold Peices",
+          "10 Gold Pieces",
         ];
         break;
 
+      case "Urchin":
+        startItems = [
+          "Small Knife",
+          "Map of City You Grew Up In",
+          "Pet Mouse",
+          "Token to Remember Your Parents",
+          "Common Clothes",
+          "10 Gold Pieces",
+        ];
+        break;
+      /* Currently Displaying wrong starting items and need the right backgrounds that I already have */
       default:
-        character.startItems = [];
+        startItems = [];
     }
+
+    character.startItems = startItems;
+    setCharacter((prevCharacter) => ({
+      ...prevCharacter,
+      startItems: startItems,
+    }));
   };
+
+  useEffect(() => {
+    if (character.background) {
+      chooseStartItems();
+    }
+  }, [character.background]);
 
   const renderStatInputs = () => {
     return Object.keys(stats).map((statName) => (
@@ -121,10 +179,8 @@ const CreateC = () => {
       ...prevCharacter,
       [fieldName]: value,
     }));
-    if (fieldName === "background") {
-      chooseStartItems();
-    }
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     character.stats = stats;
