@@ -142,7 +142,7 @@ const CreateC = () => {
           "10 Gold Pieces",
         ];
         break;
-      /* Currently Displaying wrong starting items and need the right backgrounds that I already have */
+
       default:
         startItems = [];
     }
@@ -161,11 +161,19 @@ const CreateC = () => {
   }, [character.background]);
 
   const renderStatInputs = () => {
+    const raceBuffs = {
+      Human: 1, // Assuming Humans get +1 to every stat
+      // Add more races and their buffs as needed
+    };
+
     return Object.keys(stats).map((statName) => (
       <div key={statName}>
         <label>
           {statName.charAt(0).toUpperCase() + statName.slice(1)}:
-          <div>{stats[statName]}</div>
+          <div>
+            {stats[statName]}
+            {raceBuffs[character.race] && ` (+${raceBuffs[character.race]})`}
+          </div>
           <button type="button" onClick={() => randomizeStat(statName)}>
             Roll
           </button>
@@ -234,7 +242,7 @@ const CreateC = () => {
             <option value="Teifling">Teifling</option>
             <option value="Halfling">Halfling</option>
             <option value="Gnome">Gnome</option>
-            <option value="Half-Orc">Half=Orc</option>
+            <option value="Half-Orc">Half-Orc</option>
           </select>
         </label>
         <br />
